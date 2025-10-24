@@ -26,7 +26,7 @@ function useCategories() {
         }
 
         getCategories()
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     return [categories, isFetching];
 }

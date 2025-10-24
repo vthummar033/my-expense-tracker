@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import IncomeVsExpenseChart from "../../components/userDashboard/incomeVsExpenseChart";
 import Header from "../../components/utils/header";
 import Loading from '../../components/utils/loading';
@@ -7,7 +8,7 @@ import Container from "../../components/utils/Container";
 import toast, { Toaster } from "react-hot-toast";
 
 function UserStatistics() {
-    const months = getMonths()
+    const months = useMemo(() => getMonths(), [])
     const [data, isLoading, isError] = useExpenseVsIncomeSummary(months)
 
     return (

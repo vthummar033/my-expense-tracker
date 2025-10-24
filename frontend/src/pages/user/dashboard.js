@@ -1,5 +1,5 @@
 import '../../assets/styles/dashboard.css';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import DashboardDetailBox from '../../components/userDashboard/dashboardDetailBox';
 import CategoryExpenseChart from '../../components/userDashboard/categoryExpenseChart';
 import Header from '../../components/utils/header';
@@ -12,15 +12,18 @@ import toast, { Toaster } from 'react-hot-toast';
 
 function Dashboard() {
 
-    const months = getMonths()
-    const [currentMonth, setMonth] = useState(months[0])
+    const months = useMemo(() => getMonths(), [])
+    const [currentMonth, setMonth] = useState(months[0] || { id: 1, year: new Date().getFullYear(), monthName: 'January' })
 
     const [total_expense, total_income, cash_in_hand, no_of_transactions, categorySummary, budgetAmount,
         saveBudget, isLoading, isError] = useDashboard(currentMonth)
 
     const onMonthChange = (id) => {
-        const month = months.find(m => m.id == id)
-        setMonth(month)
+        const monthId = parseInt(id)
+        const month = months.find(m => m.id === monthId)
+        if (month) {
+            setMonth(month)
+        }
     }
 
     return (
@@ -29,7 +32,7 @@ function Dashboard() {
             <Toaster/>
             {(isLoading) && <Loading />}
             {(isError) && toast.error("Failed to fetch information. Try again later!")}
-            {(!isError) && <SelectMonth months={months} onMonthChange={onMonthChange} />}
+            {(!isError) && <SelectMonth months={months} onMonthChange={onMonthChange} currentMonth={currentMonth} />}
             {(!isLoading &&  total_expense === 0) && <Info text={"You have no expenses in this month!"} />}
             {
                 (!isError && total_expense !== 0) && <>
@@ -63,10 +66,13 @@ function getMonths() {
     return months;
 }
 
-function SelectMonth({ months, onMonthChange }) {
+function SelectMonth({ months, onMonthChange, currentMonth }) {
     return (
         <div>
-            <select onChange={(e) => onMonthChange(e.target.value)}>
+            <select 
+                value={currentMonth?.id || ''} 
+                onChange={(e) => onMonthChange(e.target.value)}
+            >
                 {
                     months.map((m) => {
                         return (

@@ -60,12 +60,12 @@ function SavedTransactions() {
 
     useEffect(() => {
         getTransactions()
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         location.state && toast.success(location.state.text)
         location.state = null
-    }, [])
+    }, [location.state]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Container activeNavId={11}>

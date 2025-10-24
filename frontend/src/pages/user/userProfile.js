@@ -18,7 +18,7 @@ function UserProfile() {
             setEmail(user.email)
             setUsername(user.username)
         }
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Container activeNavId={3}>

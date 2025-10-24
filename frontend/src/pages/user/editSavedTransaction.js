@@ -47,7 +47,7 @@ function EditSavedTransaction() {
 
     useEffect(() => {
         getTransaction()
-    }, [transactionId])
+    }, [transactionId]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         setTransactionType(transaction.transactionTypeId)

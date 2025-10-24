@@ -40,7 +40,7 @@ function AdminTransactionsManagement() {
 
     useEffect(() => {
         getTransactions();
-    }, [searchKey, pageNumber])
+    }, [searchKey, pageNumber]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Container activeNavId={4}>

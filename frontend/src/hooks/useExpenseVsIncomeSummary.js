@@ -9,7 +9,7 @@ function useExpenseVsIncomeSummary(months) {
 
     useEffect(() => {
         const getData = async () => {
-            const income_response = await UserService.getMonthlySummary(AuthService.getCurrentUser().email).then(
+            await UserService.getMonthlySummary(AuthService.getCurrentUser().email).then(
                 (response) => {
                     if (response.data.status === "SUCCESS") {
                         generateData(response.data.response)
@@ -23,7 +23,7 @@ function useExpenseVsIncomeSummary(months) {
         }
 
         getData()
-    }, [months])
+    }, [months.length]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const generateData = (fetchedData) => {
         const finalData = months.map(({ id, monthName }) => {

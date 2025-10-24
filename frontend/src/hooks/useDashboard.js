@@ -16,36 +16,44 @@ function useDashboard(currentMonth) {
 
 
     const generateTransactionSummary = async () => {
+        if (!currentMonth || !currentMonth.id || !currentMonth.year) {
+            setIsLoading(false)
+            return
+        }
+        
         setIsLoading(true)
-        const income_response = await UserService.getTotalIncomeOrExpense(AuthService.getCurrentUser().id, 2, currentMonth.id, currentMonth.year).then(
+        await UserService.getTotalIncomeOrExpense(AuthService.getCurrentUser().id, 2, currentMonth.id, currentMonth.year).then(
             (response) => {
                 if (response.data.status === "SUCCESS") {
                     setIncome(Number((response.data.response) ? response.data.response.toFixed(2) : 0))
                 }
             },
             (error) => {
+                console.error('Error fetching income:', error)
                 setIsError(true)
             }
         )
 
-        const expense_response = await UserService.getTotalIncomeOrExpense(AuthService.getCurrentUser().id, 1, currentMonth.id, currentMonth.year).then(
+        await UserService.getTotalIncomeOrExpense(AuthService.getCurrentUser().id, 1, currentMonth.id, currentMonth.year).then(
             (response) => {
                 if (response.data.status === "SUCCESS") {
                     setExpense(Number((response.data.response) ? response.data.response.toFixed(2) : 0))
                 }
             },
             (error) => {
+                console.error('Error fetching expense:', error)
                 setIsError(true)
             }
         )
 
-        const no_response = await UserService.getTotalNoOfTransactions(AuthService.getCurrentUser().id, currentMonth.id, currentMonth.year).then(
+        await UserService.getTotalNoOfTransactions(AuthService.getCurrentUser().id, currentMonth.id, currentMonth.year).then(
             (response) => {
                 if (response.data.status === "SUCCESS") {
                     setTransactions(response.data.response)
                 }
             },
             (error) => {
+                console.error('Error fetching transactions count:', error)
                 setIsError(true)
             }
         )
@@ -54,6 +62,11 @@ function useDashboard(currentMonth) {
     }
 
     const generateCategorySummary = async () => {
+        if (!currentMonth || !currentMonth.id || !currentMonth.year) {
+            setIsLoading(false)
+            return
+        }
+        
         setIsLoading(true)
         const filtered = [];
         await Promise.all(categories.filter(cat => cat.transactionType.transactionTypeId === 1).map(async (cat) => {
@@ -71,19 +84,25 @@ function useDashboard(currentMonth) {
     }
 
     const fetchBudget = async () => {
+        if (!currentMonth || !currentMonth.id || !currentMonth.year) {
+            setIsLoading(false)
+            return
+        }
+        
         setIsLoading(true)
-        const response = await UserService.getBudget(currentMonth.id, currentMonth.year)
+        await UserService.getBudget(currentMonth.id, currentMonth.year)
             .then((response) => {
                 setBudgetAmount(response.data.response)
             })
             .catch((error) => {
+                console.error('Error fetching budget:', error)
                 setIsError(true)
             })
         setIsLoading(false)
     }
 
     const saveBudget = async (d) => {
-        const response = await UserService.createBudget(d.amount)
+        await UserService.createBudget(d.amount)
             .then((response) => {
             })
             .catch((error) => {
@@ -94,11 +113,11 @@ function useDashboard(currentMonth) {
 
     useEffect(() => {
         generateTransactionSummary()
-        if (categories) {
+        if (categories && categories.length > 0) {
             generateCategorySummary()
         }
         fetchBudget()
-    }, [currentMonth, categories])
+    }, [currentMonth.id, currentMonth.year, categories.length]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return [
         total_expense,

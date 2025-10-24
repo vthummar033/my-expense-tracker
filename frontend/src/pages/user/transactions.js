@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import UserService from '../../services/userService';
 import AuthService from '../../services/auth.service';
 import Header from '../../components/utils/header';
-import Message from '../../components/utils/message';
+// import Message from '../../components/utils/message';
 import Loading from '../../components/utils/loading';
 import Search from '../../components/utils/search';
 import usePagination from '../../hooks/usePagination';
@@ -46,12 +46,12 @@ function Transactions() {
 
     useEffect(() => {
         getTransactions()
-    }, [pageNumber, searchKey, transactionType, sortDirec, sortField])
+    }, [pageNumber, searchKey, transactionType, sortDirec, sortField]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         location.state && toast.success(location.state.text)
         location.state = null
-    }, [])
+    }, [location.state]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Container activeNavId={1}>

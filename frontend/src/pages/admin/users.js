@@ -54,7 +54,7 @@ function AdminUsersManagement() {
 
     useEffect(() => {
         getUsers();
-    }, [searchKey, pageNumber])
+    }, [searchKey, pageNumber]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Container activeNavId={5}>

@@ -82,7 +82,7 @@ function useProfileImage() {
 
     useEffect(() => {
         getProfileImage()
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     return [profileImg, isLoading, uploadProfileImage, removeProfileImage];

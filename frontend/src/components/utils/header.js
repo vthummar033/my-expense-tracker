@@ -21,7 +21,7 @@ const Header = memo(({ title}) => {
             setEmail(user.email)
             setUsername(user.username)
         }
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     return (

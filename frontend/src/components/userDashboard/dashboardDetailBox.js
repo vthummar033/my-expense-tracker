@@ -7,9 +7,9 @@ function DashboardDetailBox({ total_income, total_expense, cash_in_hand, no_of_t
 
     return (
         <div className='details'>
-            <Box amount={'Rs. ' + total_income} src={incomeImg} title="Income"/>
-            <Box amount={'Rs. ' + total_expense} src={expenseImg} title="Expense"/>
-            <Box amount={'Rs. ' + cash_in_hand} src={cashInHandImg} title="Cash in hand"/>
+            <Box amount={'$ ' + total_income} src={incomeImg} title="Income"/>
+            <Box amount={'$ ' + total_expense} src={expenseImg} title="Expense"/>
+            <Box amount={'$ ' + cash_in_hand} src={cashInHandImg} title="Cash in hand"/>
             <Box amount={no_of_transactions} src={transactionImg} title="No of transactions"/>
         </div>
     )
@@ -22,7 +22,7 @@ function Box({amount, src, title}) {
                 <h2>{amount}</h2>
                 <h4>{title}</h4>
             </div>
-            <img src={src}/>
+            <img src={src} alt={title}/>
         </div>
     )
 }

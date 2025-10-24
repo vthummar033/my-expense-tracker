@@ -49,7 +49,7 @@ function EditTransaction() {
 
     useEffect(() => {
         getTransaction()
-    }, [transactionId])
+    }, [transactionId]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         setTransactionType(transaction.transactionType)
